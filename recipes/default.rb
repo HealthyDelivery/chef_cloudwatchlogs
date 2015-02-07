@@ -7,6 +7,9 @@
 # All rights reserved - Do Not Redistribute
 #
 
+Chef::Log.info('node.to_json')
+Chef::Log.info(JSON.parse(node.to_json))
+
 rails_log_dir = '/srv/www/platejoy/current/log/'
 rails_env = node[:environment][:framework_env]
 
