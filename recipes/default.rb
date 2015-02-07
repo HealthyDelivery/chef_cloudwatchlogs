@@ -14,8 +14,6 @@ node_data = JSON.parse(node.to_json)
 rails_env = node_data['default']['deploy']['platejoy']['environment']['RAILS_ENV']
 rails_log_dir = node_data['normal']['deploy']['platejoy']['environment_variables']['PRODUCTION_LOG_PATH']
 
-default.deploy.platejoy.environment.RAILS_ENV
-
 logs = []
 
 logs << {
