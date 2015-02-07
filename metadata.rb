@@ -1,4 +1,4 @@
-name             'logs'
+name             'chef_cloudwatchlogs'
 maintainer       'AWS OpsWorks'
 license          'Apache 2.0'
 description      'Installs and configures a basic CloudWatch Logs example'
