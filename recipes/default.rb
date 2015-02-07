@@ -19,7 +19,7 @@ logs = []
 logs << {
   name: 'rails',
   group: "#{rails_env}_rails",
-  path:  "#{rails_log_dir}#{rails_env}.log"
+  path:  "#{rails_log_dir}/#{rails_env}.log"
 }
 
 layers_this_instance = node_data['normal']['opsworks']['instance']['layers']
