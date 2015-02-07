@@ -12,8 +12,8 @@ log_stream_name = <%= hash[:name] %>
 
 <% end %>
 
-[<%= node[:opsworks][:stack][:name] %>]
-datetime_format = [%Y-%m-%d %H:%M:%S]
-log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ', '_') %>
-file = <%= node[:cwlogs][:logfile] %>
-log_stream_name = <%= node[:opsworks][:instance][:hostname] %>
+# [<%= node[:opsworks][:stack][:name] %>]
+# datetime_format = [%Y-%m-%d %H:%M:%S]
+# log_group_name = <%= node[:opsworks][:stack][:name].gsub(' ', '_') %>
+# file = <%= node[:cwlogs][:logfile] %>
+# log_stream_name = <%= node[:opsworks][:instance][:hostname] %>
