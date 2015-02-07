@@ -1,3 +1,12 @@
+#
+# Cookbook Name:: chef_cloudwatchlogs
+# Recipe:: default
+#
+# Copyright (C) 2014 YOUR_NAME
+#
+# All rights reserved - Do Not Redistribute
+#
+
 rails_log_dir = '/srv/www/platejoy/current/log/'
 rails_env = node[:environment][:framework_env]
 
@@ -28,8 +37,6 @@ if layers_this_instance.include?('cronjob_ruby')
   }
 end
 
-
-
 template "/tmp/cwlogs.cfg" do
   cookbook "logs"
   source "cwlogs.cfg.erb"
@@ -39,4 +46,18 @@ template "/tmp/cwlogs.cfg" do
   variables(
     logs: logs
   )
+end
+
+directory "/opt/aws/cloudwatch" do
+  recursive true
+end
+
+remote_file "/opt/aws/cloudwatch/awslogs-agent-setup.py" do
+  source "https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py"
+  mode "0755"
+end
+
+execute "Install CloudWatch Logs agent" do
+  command "/opt/aws/cloudwatch/awslogs-agent-setup.py -n -r us-east-1 -c /tmp/cwlogs.cfg"
+  not_if { system "pgrep -f aws-logs-agent-setup" }
 end
