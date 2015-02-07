@@ -8,7 +8,7 @@ state_file = /var/awslogs/state/agent-state
 datetime_format = [%Y-%m-%d %H:%M:%S]
 log_group_name = <%= hash[:group] %>
 file = <%= hash[:path] %>
-log_stream_name = <%= node[:opsworks][:instance][:hostname] %>-<%= hash[:name] %>
+log_stream_name = <%= hash[:name] %>
 
 <% end %>
 

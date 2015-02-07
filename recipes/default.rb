@@ -15,12 +15,7 @@ rails_env = node_data['default']['deploy']['platejoy']['environment']['RAILS_ENV
 rails_log_dir = node_data['normal']['deploy']['platejoy']['environment_variables']['PRODUCTION_LOG_PATH']
 
 logs = []
-
-logs << {
-  name: 'rails',
-  group: "#{rails_env}_rails",
-  path:  "#{rails_log_dir}/#{rails_env}.log"
-}
+group_name = "platejoy-#{rails_env}"
 
 layers_this_instance = node_data['normal']['opsworks']['instance']['layers']
 
@@ -28,15 +23,28 @@ if layers_this_instance.include?('rails-app')
   subdomain = rails_env == 'production' ? 'www' : 'staging'
   logs << {
     name: 'nginx',
-    group: "#{rails_env}_nginx",
+    group: group_name,
     path:  "/var/log/nginx/#{subdomain}.platejoy.com.access.log"
+  }
+
+  logs << {
+    name: 'rails-web',
+    group: group_name,
+    path:  "#{rails_log_dir}/#{rails_env}.log"
+  }
+
+else
+  logs << {
+    name: 'rails-background',
+    group: group_name,
+    path:  "#{rails_log_dir}/#{rails_env}.log"
   }
 end
 
 if layers_this_instance.include?('cronjob_ruby')
   logs << {
     name: 'cronjob',
-    group: "#{rails_env}_cronjob",
+    group: group_name,
     path:  '/var/mail/root'
   }
 end
