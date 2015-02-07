@@ -7,11 +7,14 @@
 # All rights reserved - Do Not Redistribute
 #
 
-Chef::Log.info('node.to_json')
-Chef::Log.info(node.to_json)
+# Chef::Log.info('node.to_json')
+# Chef::Log.info(node.to_json)
 
-rails_log_dir = '/srv/www/platejoy/current/log/'
-rails_env = node[:environment][:framework_env]
+node_data = JSON.parse(node.to_json)
+rails_env = node_data['default']['deploy']['platejoy']['environment']['RAILS_ENV']
+rails_log_dir = node_data['normal']['deploy']['platejoy']['environment_variables']['PRODUCTION_LOG_PATH']
+
+default.deploy.platejoy.environment.RAILS_ENV
 
 logs = []
 
@@ -21,7 +24,7 @@ logs << {
   path:  "#{rails_log_dir}#{rails_env}.log"
 }
 
-layers_this_instance = JSON.parse(node.to_json)['normal']['opsworks']['instance']['layers']
+layers_this_instance = node_data['normal']['opsworks']['instance']['layers']
 
 if layers_this_instance.include?('rails-app')
   subdomain = rails_env == 'production' ? 'www' : 'staging'
