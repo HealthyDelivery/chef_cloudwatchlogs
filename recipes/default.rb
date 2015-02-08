@@ -7,17 +7,13 @@
 # All rights reserved - Do Not Redistribute
 #
 
-# Chef::Log.info('node.to_json')
-# Chef::Log.info(node.to_json)
-
-node_data = JSON.parse(node.to_json)
-rails_env = node_data['default']['deploy']['platejoy']['environment']['RAILS_ENV']
-rails_log_dir = node_data['normal']['deploy']['platejoy']['environment_variables']['PRODUCTION_LOG_PATH']
+rails_env = node['deploy']['platejoy']['environment']['RAILS_ENV']
+rails_log_dir = node['deploy']['platejoy']['environment_variables']['PRODUCTION_LOG_PATH']
 
 logs = []
 group_name = "platejoy-#{rails_env}"
 
-layers_this_instance = node_data['normal']['opsworks']['instance']['layers']
+layers_this_instance = node['opsworks']['instance']['layers']
 
 if layers_this_instance.include?('rails-app')
   subdomain = rails_env == 'production' ? 'www' : 'staging'
